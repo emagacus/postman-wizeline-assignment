@@ -1,0 +1,948 @@
+{
+	"info": {
+		"_postman_id": "e19937d9-dda8-4b52-ba1c-9321fae14b73",
+		"name": "Todoist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PROJECT",
+			"item": [
+				{
+					"name": "Create Project",
+					"item": [
+						{
+							"name": "Create new project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();\r",
+											"let newId = jsonData.id;\r",
+											"pm.environment.set(\"project_id\",newId);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"var schema = {\r",
+											"    \"items\": {\r",
+											"         \"id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"order\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"color\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"name\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"comment_count\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"shared\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"favorite\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"sync_id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"url\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"    },\r",
+											"  \"required\": [\r",
+											"    \"id\",\r",
+											"    \"order\",\r",
+											"    \"color\",\r",
+											"    \"name\",\r",
+											"    \"comment_count\",\r",
+											"    \"shared\",\r",
+											"    \"favorite\",\r",
+											"    \"sync_id\",\r",
+											"    \"url\"\r",
+											"  ]\r",
+											"};\r",
+											"\r",
+											"var data1 = pm.response.json();\r",
+											"\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.expect(tv4.validate(data1, schema)).to.be.true;\r",
+											"  \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "accept-response",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Testo projecto\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/projects",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Project",
+					"item": [
+						{
+							"name": "Get projects",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/projects",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "TASK",
+			"item": [
+				{
+					"name": "Create Task",
+					"item": [
+						{
+							"name": "Create tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();\r",
+											"let newId = jsonData.id;\r",
+											"pm.environment.set(\"task_id\",newId);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Content in response matches with content set\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.content).to.eql(\"Buy Milk\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"var schema = {\r",
+											"      \"items\": {\r",
+											"\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"assigner\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"project_id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"section_id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"order\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"content\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"completed\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"label_ids\": {\r",
+											"      \"type\": \"array\",\r",
+											"      \"items\": {}\r",
+											"    },\r",
+											"    \"priority\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"comment_count\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"creator\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"created\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"due\": {\r",
+											"      \"type\": \"object\",\r",
+											"      \"properties\": {\r",
+											"        \"recurring\": {\r",
+											"          \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"string\": {\r",
+											"          \"type\": \"string\"\r",
+											"        },\r",
+											"        \"date\": {\r",
+											"          \"type\": \"string\"\r",
+											"        },\r",
+											"        \"datetime\": {\r",
+											"          \"type\": \"string\"\r",
+											"        },\r",
+											"        \"timezone\": {\r",
+											"          \"type\": \"string\"\r",
+											"        }\r",
+											"      },\r",
+											"      \"required\": [\r",
+											"        \"recurring\",\r",
+											"        \"string\",\r",
+											"        \"date\",\r",
+											"        \"datetime\",\r",
+											"        \"timezone\"\r",
+											"      ]\r",
+											"    },\r",
+											"    \"url\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"id\",\r",
+											"    \"assigner\",\r",
+											"    \"project_id\",\r",
+											"    \"section_id\",\r",
+											"    \"order\",\r",
+											"    \"content\",\r",
+											"    \"completed\",\r",
+											"    \"label_ids\",\r",
+											"    \"priority\",\r",
+											"    \"comment_count\",\r",
+											"    \"creator\",\r",
+											"    \"created\",\r",
+											"    \"due\",\r",
+											"    \"url\"\r",
+											"  ]\r",
+											"}}\r",
+											"\r",
+											"\r",
+											"var data1 = pm.response.json();\r",
+											"\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.expect(tv4.validate(data1, schema)).to.be.true;\r",
+											"  \r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"project_id\": {{project_id}},\r\n    \"content\": \"Buy Milk\",\r\n    \"due_string\": \"tomorrow at 12:00\",\r\n    \"due_lang\": \"en\",\r\n    \"priority\": 4\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tasks",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create task with invalid project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"project_id\": \"no le se\",\r\n    \"content\": \"Buy Milk\",\r\n    \"due_string\": \"tomorrow at 12:00\",\r\n    \"due_lang\": \"en\",\r\n    \"priority\": 4\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tasks",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get task",
+					"item": [
+						{
+							"name": "Get Active task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Task is active\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.completed).to.eql(false);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"      \"items\": {\r",
+											"\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"assigner\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"project_id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"section_id\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"order\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"content\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"completed\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"label_ids\": {\r",
+											"      \"type\": \"array\",\r",
+											"      \"items\": {}\r",
+											"    },\r",
+											"    \"priority\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"comment_count\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"creator\": {\r",
+											"      \"type\": \"integer\"\r",
+											"    },\r",
+											"    \"created\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"due\": {\r",
+											"      \"type\": \"object\",\r",
+											"      \"properties\": {\r",
+											"        \"recurring\": {\r",
+											"          \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"string\": {\r",
+											"          \"type\": \"string\"\r",
+											"        },\r",
+											"        \"date\": {\r",
+											"          \"type\": \"string\"\r",
+											"        },\r",
+											"        \"datetime\": {\r",
+											"          \"type\": \"string\"\r",
+											"        },\r",
+											"        \"timezone\": {\r",
+											"          \"type\": \"string\"\r",
+											"        }\r",
+											"      },\r",
+											"      \"required\": [\r",
+											"        \"recurring\",\r",
+											"        \"string\",\r",
+											"        \"date\",\r",
+											"        \"datetime\",\r",
+											"        \"timezone\"\r",
+											"      ]\r",
+											"    },\r",
+											"    \"url\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"id\",\r",
+											"    \"assigner\",\r",
+											"    \"project_id\",\r",
+											"    \"section_id\",\r",
+											"    \"order\",\r",
+											"    \"content\",\r",
+											"    \"completed\",\r",
+											"    \"label_ids\",\r",
+											"    \"priority\",\r",
+											"    \"comment_count\",\r",
+											"    \"creator\",\r",
+											"    \"created\",\r",
+											"    \"due\",\r",
+											"    \"url\"\r",
+											"  ]\r",
+											"}}\r",
+											"\r",
+											"\r",
+											"var data1 = pm.response.json();\r",
+											"\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.expect(tv4.validate(data1, schema)).to.be.true;\r",
+											"  \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get non existing task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}/tasks/nada",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"nada"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tasks",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update Task",
+					"item": [
+						{
+							"name": "Update task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"New content\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Non existing task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"New content\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tasks/nada",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"nada"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Close Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tasks/{{task_id}}/close",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}",
+										"close"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Close non existing task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tasks/nada/close",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"nada",
+										"close"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reopen task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tasks/{{task_id}}/reopen",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}",
+										"reopen"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reopen non existing task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tasks/nada/reopen",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"nada",
+										"reopen"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete task",
+					"item": [
+						{
+							"name": "Delete task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete non existing task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/nada/{{task_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nada",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/projects/{{project_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"projects",
+										"{{project_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
