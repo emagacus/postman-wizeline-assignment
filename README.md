@@ -1,4 +1,4 @@
-# Wizeline TestCafe challenge
+# Wizeline Postman assignment
 
 Qa automation certification challenge
 
